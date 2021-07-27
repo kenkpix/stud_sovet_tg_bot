@@ -69,9 +69,9 @@ async def check_queue(message: types.Message):
 
 @dp.message_handler(commands=['order'])
 async def order(message: types.Message):
+    # user_id != '390764405' My id
     user_id = str(message.from_user.id)
-    # if user_id != '380475715':
-    if user_id != '390764405':
+    if user_id != '380475715':
         await message.answer("Команда доступна тільки для голови студради ХТФ")
     else:
         await Form.order_number.set()
