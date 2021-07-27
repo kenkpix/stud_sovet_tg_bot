@@ -38,7 +38,10 @@ async def sign_process(callback_query: types.CallbackQuery):
         db.record_prediction('abit', {"user_id": user_id, 'order': order + 1})
         await bot.send_message(callback_query.from_user.id, "По всім організаційним питанням можеш писати голові "
                                                             "студентської ради ХТФ - @alekseymelnik\n\n"
-                                                            "Якщо бот не видає тобі номер, пиши розробнику - @kenkpix")
+                                                            "Якщо бот не видає тобі номер, пиши розробнику - "
+                                                            "@kenkpix\n\n"
+                                                            "Перевірити стан черги можна за допомогою команди -"
+                                                            "/check")
         await bot.send_message(callback_query.from_user.id, f"Твій номер в черзі - {order + 1}")
     else:
         await bot.send_message(callback_query.from_user.id,
@@ -48,7 +51,8 @@ async def sign_process(callback_query: types.CallbackQuery):
 @dp.callback_query_handler(text='admin_button')
 async def admin(callback_query: types.CallbackQuery):
     await bot.send_message(callback_query.from_user.id, "Якщо ти представник факультету, "
-                                                        "то ти можеш перевіряти кількість людей в черзі\n"
+                                                        "то користуйся командою"
+                                                        " перевірки кількості людей в черзі\n"
                                                         "Тисни на /check")
 
 
