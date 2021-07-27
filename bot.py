@@ -36,11 +36,10 @@ async def sign_process(callback_query: types.CallbackQuery):
     if info is None:
         order = db.get_last_order('abit')['order']
         db.record_prediction('abit', {"user_id": user_id, 'order': order + 1})
-        await bot.send_message(callback_query.from_user.id, "По всім організаційним питанням можеш писати голові "
-                                                            "студентської ради ХТФ - @alekseymelnik\n\n"
+        await bot.send_message(callback_query.from_user.id, "По всім організаційним питанням можеш писати в - @qa_ctf_bot\n\n"
                                                             "Якщо бот не видає тобі номер, пиши розробнику - "
                                                             "@kenkpix\n\n"
-                                                            "Перевірити стан черги можна за допомогою команди -"
+                                                            "Перевірити стан черги можна за допомогою команди - "
                                                             "/check")
         await bot.send_message(callback_query.from_user.id, f"Твій номер в черзі - {order + 1}")
     else:
@@ -76,7 +75,7 @@ async def order(message: types.Message):
     # user_id != '390764405' My id
     user_id = str(message.from_user.id)
     if user_id != '380475715':
-        await message.answer("Команда доступна тільки для голови студради ХТФ")
+        await message.answer("Команда доступна тільки для адміністратора")
     else:
         await Form.order_number.set()
         await message.answer("Введи номер людини, яка зайшла по черзі")
