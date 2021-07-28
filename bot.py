@@ -22,6 +22,7 @@ sign_kb.add(sign_button).add(admin_button)
 
 class Form(StatesGroup):
     order_number = State()
+    delete_number = State()
 
 
 @dp.message_handler(commands=['start'])
@@ -89,6 +90,36 @@ async def get_order(message: types.Message, state=FSMContext):
     await message.answer(f"Оновлення: подає документи номер - {data['order']}")
     db.record_prediction('now', {'order': data['order']})
     await state.finish()
+
+
+@dp.message_handler(commands=['delete'])
+async def delete_user(message: types.Message):
+    user_id = str(message.from_user.id)
+    if user_id != '380475715':
+        await message.answer("Команда доступна тільки для адміністратора")
+    else:
+        await Form.delete_number.set()
+
+        await message.answer("Введи номери, які потрібно видалити з черги")
+
+
+@dp.message_handler(state=Form.delete_number)
+async def update_orders(message: types.Message, state=FSMContext):
+    try:
+        test = int(message.text.split(" ")[0])
+        required_numbers = [int(x) for x in message.text.split(' ')]
+        for num in required_numbers:
+            async with state.proxy() as data:
+                data['order'] = num
+            
+            db.update_db('abit', 'order', data['order'])
+
+        await message.answer(f"З черги були видалені наступні номери - {required_numbers}")
+        await state.finish()
+    except Exception:
+        await message.answer("Перевір правильність введення номерів")
+        await state.finish()
+        
 
 
 if __name__ == '__main__':

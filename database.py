@@ -1,5 +1,5 @@
 from pymongo import MongoClient, DESCENDING
-import certifi
+# import certifi
 import ssl
 
 
